@@ -160,3 +160,75 @@ void addStudent() {
         string activity;
         cout<<"Enter activity (sport or club) " << sportCount + clubCount + 1 << ": ";
         cin >> activity;
+//it checks to see different conditions are being met
+        if (sports.find(activity) != sports.end()) {
+            Activity &act = sports[activity];
+
+            if (act.members.size() >= act.max_capacity) {
+                cout << "This sport is full. Please choose another one." << endl;
+                continue;
+            }
+
+            if (student.gender == "Male" && act.male_count >= 0.75 * act.max_capacity) {
+                cout << "This sport cannot have more than 75% males." << endl;
+                continue;
+            }
+
+            if (student.gender == "Female" && act.female_count >= 0.75 * act.max_capacity) {
+                cout << "This sport cannot have more than 75% females." << endl;
+                continue;
+            }
+
+            if (find(student.activities.begin(), student.activities.end(), activity) != student.activities.end()) {
+                cout << "You have already chosen this activity. Please choose another one." << endl;
+                continue;
+            }
+
+            if (sportCount >= 1) {
+                cout << "You can only choose one sport. Please choose a club." << endl;
+                continue;
+            }
+
+            student.activities.push_back(activity);
+            act.members.push_back(student.firstname + " " + student.surname);
+            if (student.gender == "Male") {
+                act.male_count++;
+            } else {
+                act.female_count++;
+            }
+            sportCount++;
+            cout << "Sport added successfully." << endl;
+        } else if (clubs.find(activity) != clubs.end()) {
+            Activity &act = clubs[activity];
+
+            if (act.members.size() >= act.max_capacity) {
+                cout << "This club is full. Please choose another one." << endl;
+                continue;
+            }
+
+            if (find(student.activities.begin(), student.activities.end(), activity) != student.activities.end()) {
+                cout << "You have already chosen this activity. Please choose another one." << endl;
+                continue;
+            }
+
+            if (clubCount >= 3) {
+                cout << "You can only choose a maximum of 3 clubs." << endl;
+                continue;
+            }
+
+            student.activities.push_back(activity);
+            act.members.push_back(student.firstname + " " + student.surname);
+            if (student.gender == "Male") {
+                act.male_count++;
+            } else {
+                act.female_count++;
+            }
+            clubCount++;
+            cout << "Club added successfully." << endl;
+        } else {
+            cout << "Activity not found. Please enter a valid activity." << endl;
+        }
+    }
+
+    students.push_back(student);
+}
