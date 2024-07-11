@@ -1,1 +1,51 @@
+#include <iostream>//for input output operations
+#include <fstream>//
+#include <sstream>
+#include <string>
+#include <vector>// to store
+#include <map>
+#include <algorithm>//enables the complete logic of the program
 
+using namespace std;
+//Structures that hold student details and activity details
+struct Student {
+    string firstname;
+    string surname;
+    string gender;
+    int age;
+    char group;  // Group can be A, B, or C
+    vector<string> activities;  // Stores activities
+};
+
+struct Activity {
+    string name;
+    int max_capacity;
+    int male_count;
+    int female_count;
+    vector<string> members;//stores activities taken by students
+};
+//Global variables
+vector<Student> students;//store
+map<string, Activity> sports;  // Map for sports activities
+map<string, Activity> clubs;   // stores all the activities
+
+//Function to Save Students to a CSV file
+void saveStudents(const string& filename) {
+    ofstream file(filename);//to write to the files
+    if (!file.is_open()) {
+        cerr << "Error opening file for writing!" << endl;
+        return;
+    }
+    file << "First Name,Surname,Gender,Age,Group,Activities" << endl;
+    for (const auto& student : students) {
+        file << student.firstname << ","
+             << student.surname << ","
+             << student.gender << ","
+             << student.age << ","
+             << student.group;
+        for (const auto& activity : student.activities) {
+            file << "," << activity;
+        }
+        file << endl;
+    }
+    file.close();
