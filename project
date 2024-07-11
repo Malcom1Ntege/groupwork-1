@@ -109,3 +109,54 @@ void saveActivities(const string& filename) {
     file.close();
 }
 
+void loadActivities(const string& filename) {
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Error opening file for reading!" << endl;
+        return;
+    }
+    string line;
+    getline(file, line);  // Read and discard the header line
+    while (getline(file, line)) {
+        stringstream ss(line);
+        Activity activity;
+        string item;
+        getline(ss, activity.name, ',');
+        ss >> activity.max_capacity;
+        ss.ignore();
+        ss >> activity.male_count;
+        ss.ignore();
+        ss >> activity.female_count;
+        ss.ignore();
+        while (getline(ss, item, ',')) {
+            activity.members.push_back(item);
+        }
+        if (activity.max_capacity == 20) {
+            sports[activity.name] = activity;
+        } else {
+            clubs[activity.name] = activity;
+        }
+    }
+    file.close();
+}
+//Function to add student
+void addStudent() {
+    Student student;
+    cout << "Enter first name: ";
+    cin >> student.firstname;
+    cout << "Enter surname: ";
+    cin >> student.surname;
+    cout << "Enter gender (Male/Female): ";
+    cin >> student.gender;
+    cout << "Enter age: ";
+    cin >> student.age;
+    cout << "Enter group (A/B/C): ";
+    cin >> student.group;
+
+    int sportCount = 0;
+    int clubCount = 0;
+
+    while (sportCount + clubCount < 3) {
+        string activity;
+        cout<<"Enter activity (sport or club) " << sportCount + clubCount + 1 << ": ";
+        cin >> activity;
