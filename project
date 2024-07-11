@@ -232,3 +232,95 @@ void addStudent() {
 
     students.push_back(student);
 }
+//Function to view Students,Clubs and Sports
+void viewStudents() {
+    for (const auto& student : students) {
+        cout << student.firstname << " " << student.surname << ", "
+             << student.gender << ", " << student.age << ", Group "
+             << student.group << ", Activities: ";
+        for (const auto& activity : student.activities) {
+            cout << activity << " ";
+        }
+        cout << endl;
+    }
+}
+
+void viewClubs() {
+    for (const auto& [name, activity] : clubs) {
+        cout << "Club: " << activity.name << ", Capacity: "
+             << activity.max_capacity << ", Male Count: " << activity.male_count
+             << ", Female Count: " << activity.female_count << endl;
+    }
+}
+
+void viewSports() {
+    for (const auto& [name, activity] : sports) {
+        cout << "Sport: " << activity.name << ", Capacity: "
+             << activity.max_capacity << ", Male Count: " << activity.male_count
+             << ", Female Count: " << activity.female_count << endl;
+    }
+}
+//Function to show Menu
+void showMenu() {
+    int choice;
+    while (true) {
+        cout << "\nMenu\n";
+        cout << "1. Add Student\n";
+        cout << "2. View Students\n";
+        cout << "3. View Clubs\n";
+        cout << "4. View Sports\n";
+        cout << "5. Save Data to CSV\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+//to handle different cases used on user choice
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                viewStudents();
+                break;
+            case 3:
+                viewClubs();
+                break;
+            case 4:
+                viewSports();
+                break;
+            case 5:
+                saveStudents("students.csv");
+                saveActivities("activities.csv");
+                break;
+            case 6:
+                return;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    }
+}
+//Main Function
+int main() {
+        //initializes the activites
+    sports["Rugby"] = {"Rugby", 20, 0, 0, {}};
+    sports["Athletics"] = {"Athletics", 20, 0, 0, {}};
+    sports["Swimming"] = {"Swimming", 20, 0, 0, {}};
+    sports["Soccer"] = {"Soccer", 20, 0, 0, {}};
+    clubs["Journalism"] = {"Journalism", 60, 0, 0, {}};
+    clubs["RedCrossSociety"] = {"RedCrossSoceity", 60, 0, 0, {}};
+    clubs["AISEC"] = {"AISEC", 60, 0, 0, {}};
+    clubs["Business"] = {"Business", 60, 0, 0, {}};
+    clubs["ComputerScience"] = {"ComputerScience", 60, 0, 0, {}};
+
+    showMenu();
+    //reads activity data from file and passes it to be stored in the appropriate data structure
+    loadStudents("students.csv");
+    loadActivities("activities.csv");
+
+    return 0;
+}#include <iostream>
+
+int main()
+{
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
