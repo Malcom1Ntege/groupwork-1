@@ -49,3 +49,63 @@ void saveStudents(const string& filename) {
         file << endl;
     }
     file.close();
+
+//Function to load Students from CSV file
+void loadStudents(const string& filename) {
+    ifstream file(filename);//used to read files
+    if (!file.is_open()) {
+        cerr << "Error opening file for reading!" << endl;
+        return;
+    }
+    string line;
+    //extract data from stringstream
+    getline(file, line);  // Read and discard the header line
+    while (getline(file, line)) {
+        stringstream ss(line);
+        Student student;
+        string item;
+        getline(ss, student.firstname, ',');//extract data from stringstream
+        getline(ss, student.surname, ',');
+        getline(ss, student.gender, ',');//delimeter to extract each activity and add it to the student activity vector
+        ss >> student.age;//extract age as an integer
+        ss.ignore();
+        ss >> student.group;//extract group as an character
+        ss.ignore();
+        while (getline(ss, item, ',')) {
+            student.activities.push_back(item);
+        }
+        students.push_back(student);
+    }
+    file.close();
+}
+//save to the file
+void saveActivities(const string& filename) {
+    ofstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Error opening file for writing!" << endl;
+        return;
+    }
+    file << "Activity Name,Max Capacity,Male Count,Female Count,Members" << endl;
+    for (const auto& [name, activity] : sports) {
+        file << activity.name << ","
+             << activity.max_capacity << ","
+             << activity.male_count << ","
+             << activity.female_count;
+        for (const auto& member : activity.members) {
+            file << "," << member;
+        }
+        file << endl;
+    }
+    for (const auto& [name, activity] : clubs) {
+        file << activity.name << ","
+             << activity.max_capacity << ","
+             << activity.male_count << ","
+             << activity.female_count;
+        for (const auto& member : activity.members) {
+            file << "," << member;
+        }
+        file << endl;
+    }
+    file.close();
+}
+
